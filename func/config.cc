@@ -17,6 +17,13 @@ using namespace std;
 
 int misha_readline(vector<string> *tokens) {
 
+    /*
+
+        Считывает строку из стандартного ввода.
+
+    */
+
+
     string s = "";
 	char c = ' ';
 
@@ -57,9 +64,17 @@ int misha_readline(vector<string> *tokens) {
 }
 
 vector<vector<string> > misha_parse(vector<string> line) {
+
+    /*
+
+        Разбивает строку на токены с разделителем | .
+
+    */
+
     vector<vector<string> > cmd;
     vector<string> tokens;
-    int i;
+    long unsigned int i;
+
     for(i = 0; i < line.size(); ++i) {
         while (i < line.size() && line[i] != "|") {
             tokens.push_back(line[i]);
@@ -78,12 +93,20 @@ vector<vector<string> > misha_parse(vector<string> line) {
     return cmd;
 }
 
-vector<string> split(string line, char splitter) {
-	int i = 0;
+vector<string> split(string line, char to_split) {
+
+    /*
+
+        Разделяет строку на слова с разделителем to_split.
+
+    */
+
+	long unsigned int i = 0;
 	vector<string> ret;
 	string s;
+
 	while (i < line.size()) {
-    	while (i < line.size() && line[i] != splitter) {
+    	while (i < line.size() && line[i] != to_split) {
         	s = s + line[i];
 			i++;
 		}
@@ -97,8 +120,15 @@ vector<string> split(string line, char splitter) {
 }
 
 string join(vector<string> args, string s, int key) {
-    // склеивает строки из args с разделителем s
+
+    /*
+
+        Составляет из слов предложение с разделитем s.
+
+    */
+
 	string ret = s + args[0];
+    long unsigned int i;
 
     if(key == 0) {
         ret = args[0];
@@ -108,15 +138,24 @@ string join(vector<string> args, string s, int key) {
         ret = s + args[0];
     }
 
-	for (int i = 1; i < args.size(); i++) {
+	for (i = 1; i < args.size(); i++) {
 		ret = ret + s + args[i];
 	}
 	return ret;
 }
 
 vector<char *> args_to_c(vector<string> &args) {
+
+    /*
+
+        Переводит вектор string в вектор char * .
+        В конец добавляется nullptr для дальнейшего запуска.
+
+    */
+
 	vector<char *> c_args;
-    int i;
+    long unsigned int i;
+
 	for (i = 0; i < args.size(); ++i) {
 		c_args.push_back((char *)(args[i].c_str())); 
     }
@@ -125,6 +164,7 @@ vector<char *> args_to_c(vector<string> &args) {
 }
 
 int is_meta(string symbol){
+
     if(symbol == "*") {
         return '*';
     }
@@ -138,8 +178,15 @@ int is_meta(string symbol){
 }
 
 vector<string> direct_delete(vector<string> args, string symbol) {
-    // удаляет первое вхождение символа и строки, следующей за ним
-    int i;
+
+    /*
+
+        Удаляет первое вхождение слова и следующее за ним слово.
+
+    */
+
+    long unsigned int i;
+
     for(i = 0; i < args.size(); ++i) {
         if(args[i] == symbol) {
             args.erase(args.begin() + i, args.begin() + i + 2);
@@ -150,8 +197,16 @@ vector<string> direct_delete(vector<string> args, string symbol) {
 }
 
 int direct_find(vector<string> args, vector<int> *positions) {
+
+    /*
+
+        Находит позиции расположения метасимволов > и < .
+
+    */
+
     int input = 0, output = 0;
-    int i, flag_in = 0, flag_out = 0;
+    int flag_in = 0, flag_out = 0;
+    long unsigned int i;
 
     for(i = 0; i < args.size(); ++i) {
         if(args[i] == ">") {
@@ -177,6 +232,14 @@ int direct_find(vector<string> args, vector<int> *positions) {
 }
 
 int direct_process(vector<string> args) {
+
+    /*
+
+        Исполняет подготовленный вектор с переводом потоков,
+        если необходимо.
+
+    */
+
     int input = 0, output = 1, flag_in = 0, flag_out = 0;
     vector<int> positions;
     vector<char *> cmd;
@@ -236,7 +299,7 @@ int direct_process(vector<string> args) {
     if(pid > 0) {
         // parent
 		int status;
-        pid_t waitid = wait(&status);
+        wait(&status);
 	}
 
 	if(pid == 0) {
@@ -263,7 +326,14 @@ int direct_process(vector<string> args) {
 
 int conveer(vector<vector<string>> args) {
 
-    int i, fd[2][2], status;
+    /*
+
+        Запускает конвейер.
+
+    */
+
+    int fd[2][2], status;
+    long unsigned int i;
     pid_t proc_id[args.size()] = {-5};
 
     fd[0][0] = 0;
@@ -319,7 +389,16 @@ int conveer(vector<vector<string>> args) {
 }
 
 int pattern_check(string line) {
-	for (int i = 0; i < line.size(); i++) {
+
+    /*
+
+        Проверяет вхождение шаблонов * и ? .
+
+    */
+
+    long unsigned int i;
+
+	for (i = 0; i < line.size(); i++) {
 		if (line[i] == '*' || line[i] == '?') {
 			return 1;
 		}
@@ -328,7 +407,15 @@ int pattern_check(string line) {
 }
 
 int pattern_find(vector<string> args) {
-    int i;
+
+    /*
+
+        Находит первое вхождение шаблонов * и ? .
+
+    */
+
+    long unsigned int i;
+
     for (i = 0; i < args.size(); i++) {
 		if(pattern_check(args[i])) {
 			return i;
@@ -338,18 +425,33 @@ int pattern_find(vector<string> args) {
 }
 
 int misha_cd(vector<string> args) {
+
+    /*
+
+        Смена директории.
+
+    */
+
     if(args[1] == "") {
         fprintf(stderr, "misha: ожидается аргумент для \"cd\"\n");
     } else {
         if(chdir(args[1].c_str()) != 0) {
-        perror("misha_cd");
+            perror("misha_cd");
+        }
     }
-  }
   return 0;
 }
 
 int misha_pwd(vector<string>) {
+
+    /*
+
+        Печать директории в стандартный вывод.
+
+    */
+
     char cwd[PATH_MAX];
+
     if(getcwd(cwd, sizeof(cwd)) != nullptr) {
        printf("%s\n", cwd);
     } else {
@@ -361,6 +463,12 @@ int misha_pwd(vector<string>) {
 
 int misha_launch(vector<string> args) {
 
+    /*
+
+        Запуск программ в дочернем процессе.
+
+    */
+
     vector<char *> cmd;
     cmd = args_to_c(args);
 
@@ -369,7 +477,7 @@ int misha_launch(vector<string> args) {
     if(pid > 0) {
         // parent
 		int status;
-        pid_t waitid = wait(&status);
+        wait(&status);
 	}
 
 	if(pid == 0) {
@@ -389,10 +497,17 @@ int misha_launch(vector<string> args) {
 }
 
 int lauch_binaries(vector<string> args, string location, string cmd) {
+
+    /*
+
+        Запуск бинарных файлов из папки ./bin .
+
+    */
+
     vector<string> new_args;
     string dir_name = location + "/bin";
     string file_name = dir_name + "/" + cmd;
-    int i;
+    long unsigned int i;
 
     DIR *dir = opendir(dir_name.c_str());
 
@@ -407,10 +522,18 @@ int lauch_binaries(vector<string> args, string location, string cmd) {
 		new_args.push_back(args[i]); 
     }
 
+    closedir(dir);
+
     return misha_launch(new_args);
 }
 
 int _execute(vector<string> args, string location) {
+
+    /*
+
+        Подготовка к исполнению программ.
+
+    */
 
     if(args[0] == "") {
         // введена пустая строка
@@ -441,6 +564,13 @@ int _execute(vector<string> args, string location) {
 
 int misha_execute(vector<string> line, string location) {
 
+    /*
+
+        Выбор исполнения строки: через обыкновенный запуск или
+        посредством конвейера.
+
+    */
+
     vector<vector<string>> args = misha_parse(line);
 
     if(args.size() > 1) {
@@ -452,6 +582,13 @@ int misha_execute(vector<string> line, string location) {
 
 void check_user() {
 	
+    /*
+
+        Вывод в стандартный вывод информации о пользователе и
+        текущей директории.
+
+    */
+
     struct passwd *userinfo;
     uid_t userid;
 
@@ -474,7 +611,16 @@ void check_user() {
 }
 
 void find_self(string *start_location) {
+
+    /*
+
+        Поиск текущей директории. Необходима для поиска 
+        папки ./bin .
+
+    */
+
     char wd[PATH_MAX];
+
     if(getcwd(wd, sizeof(wd)) != nullptr) {
         *start_location = string(wd);
     } else {

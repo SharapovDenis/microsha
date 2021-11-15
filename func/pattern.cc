@@ -2,6 +2,13 @@
 #define PATPROCEXIT 2
 
 void walk_recursive(string const &dirname, vector<string> &ret) {
+
+    /*
+
+        Рекурсивный поиск файлов в директории.
+
+    */
+
     DIR *dir = opendir(dirname.c_str());
     if (dir == nullptr) {
         perror(dirname.c_str());
@@ -18,6 +25,13 @@ void walk_recursive(string const &dirname, vector<string> &ret) {
 }
 
 vector<string> walk(string const &dirname) {
+
+    /*
+
+        Вывод в вектор файлов директории.
+
+    */
+
     vector<string> ret;
     walk_recursive(dirname, ret);
     return ret;
@@ -25,6 +39,14 @@ vector<string> walk(string const &dirname) {
 
 int pattern_cmp_str(string file, string pattern) {
     
+    /*
+
+        Функция сравнения имен файлов при наличии шаблонов * и ? .
+
+    */
+
+    long unsigned int i;
+
     if(file == "" && pattern == "") {
         return 1;
     }
@@ -43,7 +65,7 @@ int pattern_cmp_str(string file, string pattern) {
 	}
     
     if (pattern[0] == '*') {
-		for (int i = 0; i <= file.size(); i++) {
+		for (i = 0; i <= file.size(); i++) {
 			if (pattern_cmp_str(file.substr(i), pattern.substr(1))) {
 				return 1;
 			}
@@ -60,11 +82,19 @@ int pattern_cmp_str(string file, string pattern) {
 }
 
 int pattern_cmp_vec(vector<string> args, vector<string> pattern) {
-    // те же сравнения, но для каждой строки
+
+    /*
+
+        Сравнение имён файлов для веторов.
+
+    */
+
+    long unsigned int i;
+
 	if (args.size() != pattern.size()) { 
         return 0; 
     }
-	for (int i = 0; i < args.size(); i++) {
+	for (i = 0; i < args.size(); i++) {
 		if (pattern_cmp_str(args[i], pattern[i]) == 0) {
 			return 0;
 		}
@@ -73,7 +103,15 @@ int pattern_cmp_vec(vector<string> args, vector<string> pattern) {
 }
 
 string sub_direction(string line) {
-    int i;
+
+    /*
+
+        Выводит подслово директории до первого вхождения
+        шаблона * или ? .
+
+    */
+
+    long unsigned int i;
     string s = "";
 
     for(i = 0; i < line.size(); ++i) {
@@ -92,11 +130,12 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    int i, flag = 0;
+    int j, flag = 0;
+    long unsigned int i;
     vector<string> args;
 
-    for(i = 1; i < argc; ++i) {
-        args.push_back(string(argv[i]));
+    for(j = 1; j < argc; ++j) {
+        args.push_back(string(argv[j]));
     }
 
     int position = pattern_find(args);
@@ -109,6 +148,7 @@ int main(int argc, char **argv) {
 	vector<string> dirs, file, pattern, cmd = args;
 	string joined;
     string to_walk = sub_direction(args[position]);
+
 	if (args[position][0] == '/') {
         // директория в текущей /...
 		dirs = walk(to_walk);

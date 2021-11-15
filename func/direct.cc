@@ -74,14 +74,14 @@ int main(int argc, char **argv) {
     if(pid > 0) {
         // parent
 		int status;
-        pid_t waitid = wait(&status);
+        wait(&status);
         if(WIFEXITED(status)) {
-                    int status_code = WEXITSTATUS(status);
-                    if(status_code == DIRPROCEXIT) {
-                        fprintf(stderr, "%s: command not found\n", cmd[0]);
-                        return 0;
-                    }
-                }
+            int status_code = WEXITSTATUS(status);
+            if(status_code == DIRPROCEXIT) {
+                fprintf(stderr, "%s: command not found\n", cmd[0]);
+                return 0;
+            }
+        }
 	}
 
 	if(pid == 0) {
@@ -102,6 +102,13 @@ int main(int argc, char **argv) {
         fprintf(stderr, "fork() error\n");
         return 1;
     }
+
+    if(input != 0) {
+            close(input);
+        }
+        if(output != 1) {
+            close(output);
+        }
 
     return 0;
 }

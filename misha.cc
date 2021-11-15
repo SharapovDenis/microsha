@@ -1,4 +1,4 @@
-#include "config.cc"
+#include "func/config.cc"
 using namespace std;
 
 void sighandler(int signum) {
@@ -24,6 +24,7 @@ int main() {
         check_user();
         flag = misha_readline(&line);
         if(flag == -1) {
+            line.clear();
             return 0;
         }
         args = misha_parse(line);
