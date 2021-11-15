@@ -7,8 +7,11 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    string location;
-    find_self(&location);
+    size_t pos;
+    string location = string(argv[0]);
+    
+    pos = location.find("/bin/conv");
+    location.erase(pos);
 
     int i, fd[2][2], status;
     vector<string> line;

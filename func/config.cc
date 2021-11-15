@@ -432,8 +432,12 @@ int misha_cd(vector<string> args) {
 
     */
 
-    if(args[1] == "") {
-        fprintf(stderr, "misha: ожидается аргумент для \"cd\"\n");
+    const char *home = "/home";
+
+    if(args.size() < 2) {
+        if(chdir(home) != 0) {
+            perror("misha_cd");
+        }
     } else {
         if(chdir(args[1].c_str()) != 0) {
             perror("misha_cd");
