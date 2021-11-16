@@ -11,7 +11,7 @@ void sighandler(int signum) {
 
 int main() {
     vector<string> line;
-	vector<vector<string>> args;
+    vector<vector<string>> args;
     string misha_location;
     int status = 1, flag = -1;
     
@@ -32,10 +32,3 @@ int main() {
         line.clear();
     } while(status == 0);
 }
-
-// компилировать с ключами, чтобы убрать все предупреждения
-// общие функции в двух файлах перенести в отдельный, например, в config.cc
-// direct_process в отдельный файл, чтобы она хорошо заканчивалась с помощью return (так же, как и patter_process).
-// заменить exit в misha_read_line
-// заменить чтение на read, запись --- на write
-// conveer в отдельный файл

@@ -1,26 +1,33 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <sys/types.h>
+#include "config.cc"
 #include <sys/time.h>
 #include <sys/resource.h>
-#include <unistd.h>
-#include <sys/wait.h>
 
-void printt(char *s, struct timeval *tv) {
+void printt(const char *s, struct timeval *tv) {
     
     fprintf(stderr, "%s: %9ld.%01ld\n", s, tv->tv_sec, tv->tv_usec/100000);
 }
 
 int main(int argc, char** argv) {
 
-	int status;
+    if (argc <= 1){
+	    exit(0);
+    }
+
+	int status, i;
 	pid_t pid;
 	struct timeval before, after;
 	struct rusage ru;
 
-	if (argc<=1){
-	    exit(0);
+    size_t pos;
+    string location = string(argv[0]);
+
+    pos = location.find("/bin/time");
+    location.erase(pos);
+
+    vector<string> args;
+
+    for(i = 2; i < argc; ++i) {
+        args.push_back(string(argv[i]));
     }
 
 	gettimeofday(&before, 0);
@@ -32,9 +39,7 @@ int main(int argc, char** argv) {
 		exit(1);
 	}
 	if (pid == 0) {
-		execvp(argv[2], &argv[2]);
-		perror(argv[2]);
-		exit(1);
+		return _execute(args, location);
 	}
 
 	signal(SIGINT, SIG_IGN);
@@ -46,6 +51,7 @@ int main(int argc, char** argv) {
 	if ((status&0377) != 0) {
         fprintf(stderr, "\nCommand terminated abnormally.\n");
     }
+    
 	after.tv_sec -= before.tv_sec;
 	after.tv_usec -= before.tv_usec;
 

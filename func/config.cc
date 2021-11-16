@@ -25,7 +25,7 @@ int misha_readline(vector<string> *tokens) {
 
 
     string s = "";
-	char c = ' ';
+    char c = ' ';
 
     while(c != '\n') {
         c = getchar();
@@ -108,13 +108,13 @@ vector<string> split(string line, char to_split) {
 	while (i < line.size()) {
     	while (i < line.size() && line[i] != to_split) {
         	s = s + line[i];
-			i++;
+            i++;
 		}
     	if (s != "") {
-			ret.push_back(s);
-        	s = "";
+            ret.push_back(s);
+            s = "";
     	}
-		i++;
+        i++;
 	}
 	return ret;
 }
@@ -127,7 +127,7 @@ string join(vector<string> args, string s, int key) {
 
     */
 
-	string ret = s + args[0];
+    string ret = s + args[0];
     long unsigned int i;
 
     if(key == 0) {
@@ -139,7 +139,7 @@ string join(vector<string> args, string s, int key) {
     }
 
 	for (i = 1; i < args.size(); i++) {
-		ret = ret + s + args[i];
+        ret = ret + s + args[i];
 	}
 	return ret;
 }
@@ -153,11 +153,11 @@ vector<char *> args_to_c(vector<string> &args) {
 
     */
 
-	vector<char *> c_args;
+    vector<char *> c_args;
     long unsigned int i;
 
 	for (i = 0; i < args.size(); ++i) {
-		c_args.push_back((char *)(args[i].c_str())); 
+        c_args.push_back((char *)(args[i].c_str())); 
     }
 	c_args.push_back(nullptr);
 	return c_args;
@@ -298,7 +298,7 @@ int direct_process(vector<string> args) {
 
     if(pid > 0) {
         // parent
-		int status;
+        int status;
         wait(&status);
 	}
 
@@ -311,7 +311,7 @@ int direct_process(vector<string> args) {
         if(output != 1) {
             dup2(output, 1);
         }
-		execvp(cmd[0], &cmd[0]);
+        execvp(cmd[0], &cmd[0]);
         fprintf(stderr, "%s: command not found\n", cmd[0]);
         return 1;
 	}
@@ -398,12 +398,12 @@ int pattern_check(string line) {
 
     long unsigned int i;
 
-	for (i = 0; i < line.size(); i++) {
-		if (line[i] == '*' || line[i] == '?') {
-			return 1;
-		}
-	}
-	return 0;
+    for (i = 0; i < line.size(); i++) {
+        if (line[i] == '*' || line[i] == '?') {
+            return 1;
+        }
+    }
+    return 0;
 }
 
 int pattern_find(vector<string> args) {
@@ -417,9 +417,9 @@ int pattern_find(vector<string> args) {
     long unsigned int i;
 
     for (i = 0; i < args.size(); i++) {
-		if(pattern_check(args[i])) {
-			return i;
-		}
+        if(pattern_check(args[i])) {
+            return i;
+        }
 	}
     return -1;
 }
@@ -480,14 +480,14 @@ int misha_launch(vector<string> args) {
 
     if(pid > 0) {
         // parent
-		int status;
+        int status;
         wait(&status);
 	}
 
 	if(pid == 0) {
         // child
 
-		execvp(cmd[0], &cmd[0]);
+        execvp(cmd[0], &cmd[0]);
         fprintf(stderr, "%s: command not found\n", cmd[0]);
         return 1;
 	}
@@ -523,7 +523,7 @@ int lauch_binaries(vector<string> args, string location, string cmd) {
     new_args.push_back(file_name);
 
 	for (i = 0; i < args.size(); ++i) {
-		new_args.push_back(args[i]); 
+        new_args.push_back(args[i]); 
     }
 
     closedir(dir);

@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
 
     if(pid > 0) {
         // parent
-		int status;
+        int status;
         wait(&status);
         if(WIFEXITED(status)) {
             int status_code = WEXITSTATUS(status);
@@ -93,7 +93,7 @@ int main(int argc, char **argv) {
         if(output != 1) {
             dup2(output, 1);
         }
-		execvp(cmd[0], &cmd[0]);
+        execvp(cmd[0], &cmd[0]);
         fprintf(stderr, "%s: command not found\n", cmd[0]);
         return 1;
 	}
