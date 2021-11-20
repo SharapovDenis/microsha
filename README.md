@@ -2,7 +2,7 @@ MIcrosHA
 
 Компиляция:
 
-make misha_compile;
+make misha_compile
 
 make binaries_compile
 
