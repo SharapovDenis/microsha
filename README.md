@@ -2,6 +2,12 @@ MIcrosHA
 
 Компиляция:
 
+make misha_compile;
+
+make binaries_compile
+
+или вручную:
+
 c++ misha.cc -g -o misha_valgrind (для запуска  valgrind ./misha_valgrind)
 
 c++ misha.cc -fsanitize=address -g -o misha_fsanitize (для запуска ./a.out)
