@@ -4,7 +4,7 @@ MIcrosHA
 
 c++ misha.cc -g -o misha_valgrind (для запуска  valgrind ./misha_valgrind)
 
-c++ misha.cc -fsanitize=address -o misha_fsanitize (для запуска ./a.out)
+c++ misha.cc -fsanitize=address -g -o misha_fsanitize (для запуска ./a.out)
 
 c++ -Wall -Wextra misha.cc -o misha (запуск без дополнительных программ ./a.out)
 
