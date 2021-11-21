@@ -7,22 +7,22 @@
 ### Папки:
 
 1. ./ :
-    * `misha.cc` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; реализация функции main() --- основа работы оболочки;
-    * `misha` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; бинарный файл, полученный компиляцией, описанной ниже;
-    * `misha_valgrind` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; бинарный файл, предназначенный для отладки c программой valgrind;
-    * `misha_fsanitize` &nbsp;&nbsp;&nbsp; бинарный файл, предназначенный для отладки;
-    * `Makefile` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; предназначен для команды make;
-    * `./func` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; папка, содержащая реализацию функций проекта;
-    * `./bin` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; папка, содержащая бинарные файлы.
+    * `misha.cc` реализация функции main() --- основа работы оболочки;
+    * `misha` бинарный файл, полученный компиляцией, описанной ниже;
+    * `misha_valgrind` бинарный файл, предназначенный для отладки c программой valgrind;
+    * `misha_fsanitize` бинарный файл, предназначенный для отладки;
+    * `Makefile` предназначен для команды make;
+    * `./func` папка, содержащая реализацию функций проекта;
+    * `./bin` папка, содержащая бинарные файлы.
 
 2. ./func:
-    * `config.cc` &nbsp;&nbsp;&nbsp;&nbsp; "библиотека" проекта;
-    * `conv.cc` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; реализация конвейера;
-    * `direct.cc` &nbsp;&nbsp;&nbsp;&nbsp; реализация перенаправления потока ввода-вывода;   
-    * `echo.c` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;реализация команды echo;
-    * `pattern.cc` &nbsp;&nbsp; реализация обработки шаблонов "*" и "?";
-    * `pwd.c` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; реализация команды pwd;
-    * `time.cc` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; реализация команды time.
+    * `config.cc` "библиотека" проекта;
+    * `conv.cc`  реализация конвейера;
+    * `direct.cc` реализация перенаправления потока ввода-вывода;   
+    * `echo.c` реализация команды echo;
+    * `pattern.cc` реализация обработки шаблонов "*" и "?";
+    * `pwd.c` реализация команды pwd;
+    * `time.cc` реализация команды time.
 
 3. ./bin:
     * Бинарные файлы, полученные компиляцией файлов из папки func.
