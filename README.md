@@ -37,32 +37,27 @@
 
 С использованием команды make:
 
-    make misha_compile
+<pre>
+make misha_compile
 
-<br />
-
-    make binaries_compile
+make binaries_compile
+</pre>   
 
 или вручную:
 
-    c++ misha.cc -g -o misha_valgrind
+<pre>
+c++ misha.cc -g -o misha_valgrind
 
-<br />
+c++ misha.cc -g -fsanitize=address -o misha_fsanitize
 
-    c++ misha.cc -g -fsanitize=address -o misha_fsanitize
+c++ misha.cc -o misha
 
-<br /> 
+c++ [-Wall -Wextra] file_name.cc -o file_name
 
-    c++ misha.cc -o misha
+gcc [-Wall -Wextra] file_name.c  -o file_name
+</pre>
 
-<br /> 
-
-    c++ [-Wall -Wextra] <file_name.cc> -o <file_name> 
-
-<br />
-
-    gcc [-Wall -Wextra] <file_name.c>  -o <file_name> 
-
+`[-Wall -Wextra]` --- после переписания кода (для проверки на ошибки).
 
 ## Предупреждение:
 
@@ -70,6 +65,9 @@
 
 ## Версии:
 
-1.0.0 --- реализация time.c + исправлены ошибки чтения пути до ./bin в программе conv.
+==1.0.0== 
+* реализация time.c; 
+* исправлены ошибки чтения пути до ./bin в программе conv.
 
-1.0.1 --- исправлены ошибки в time.c -> time.cc. Теперь программа выполняется с функцией _execute().
+==1.0.1== 
+* исправлены ошибки в time.c -> time.cc. Теперь программа выполняется с функцией _execute().
