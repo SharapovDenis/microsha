@@ -37,9 +37,9 @@
 
 С использованием команды make:
 
-<pre>
-make misha_compile
-</pre>
+    make misha_compile
+
+<br />
 
     make binaries_compile
 
@@ -47,13 +47,22 @@ make misha_compile
 
     c++ misha.cc -g -o misha_valgrind
 
+<br />
+
     c++ misha.cc -g -fsanitize=address -o misha_fsanitize
+
+<br /> 
 
     c++ misha.cc -o misha
 
+<br /> 
+
     c++ [-Wall -Wextra] <file_name.cc> -o <file_name> 
 
+<br />
+
     gcc [-Wall -Wextra] <file_name.c>  -o <file_name> 
+
 
 ## Предупреждение:
 
