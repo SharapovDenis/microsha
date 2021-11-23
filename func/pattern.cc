@@ -11,7 +11,6 @@ void walk_recursive(string const &dirname, vector<string> &ret) {
 
     DIR *dir = opendir(dirname.c_str());
     if (dir == nullptr) {
-        perror(dirname.c_str());
         return;
     }
     for (dirent *de = readdir(dir); de != nullptr; de = readdir(dir)) {
