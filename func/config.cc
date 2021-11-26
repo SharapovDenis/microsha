@@ -551,16 +551,16 @@ int _execute(vector<string> args, string location) {
         lauch_binaries(args, location, "pwd");
         return 0;
     }
+    if(pattern_find(args) != -1) {
+        lauch_binaries(args, location, "pattern");
+        return 0;
+    }
     if(args[0] == "echo") {
         lauch_binaries(args, location, "echo");
         return 0;
     }
     if(args[0] == "time") {
         lauch_binaries(args, location, "time");
-        return 0;
-    }
-    if(pattern_find(args) != -1) {
-        lauch_binaries(args, location, "pattern");
         return 0;
     }
     return lauch_binaries(args, location, "direct");

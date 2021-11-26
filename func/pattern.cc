@@ -129,6 +129,12 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+    size_t pos;
+    string location = string(argv[0]);
+    
+    pos = location.find("/bin/pattern");
+    location.erase(pos);
+
     int j, flag = 0;
     long unsigned int i;
     vector<string> args;
@@ -159,7 +165,9 @@ int main(int argc, char **argv) {
     
     sort(dirs.begin(), dirs.end());
 
-    pid_t proc_id[dirs.size()] = {0};
+    vector<char *> c_cmd;
+    pid_t proc_id[dirs.size()] = {-5};
+    int counter = 0;
 
     // сравниваем для каждого dirent->name
 	for (i = 0; i < dirs.size(); ++i) {
@@ -179,7 +187,8 @@ int main(int argc, char **argv) {
         if (pattern_cmp_vec(file, pattern)) {
             // если совпали, то выполняем тело:
 
-            vector<char *> c_cmd;
+            counter++;
+            c_cmd.clear();
 
             // прицепили слеши
             joined = join(file, "/", flag);
@@ -188,30 +197,31 @@ int main(int argc, char **argv) {
             c_cmd = args_to_c(cmd);
 
             // запускаем программу
-            pid_t pid = fork();
+            proc_id[i] = fork();
 
-            if(pid > 0) {
-                // parent
-                int status;
-                proc_id[i] = waitpid(pid, &status, 0);
-                if(WIFEXITED(status)) {
-                    int status_code = WEXITSTATUS(status);
-                    if(status_code == PATPROCEXIT) {
-                        fprintf(stderr, "%s: command not found\n", c_cmd[0]);
-                        return 0;
-                    }
-                }
-			}
-            if(pid == 0) {
+            if(proc_id[i] == 0) {
                 // child
                 execvp(c_cmd[0], &c_cmd[0]);
                 return PATPROCEXIT;
             }
-            if(pid < 0) {
+            if(proc_id[i] < 0) {
                 fprintf(stderr, "fork() error\n");
                 return 1;
             }
 		}
 	}
+
+    for(i = 0; i < counter; ++i) {
+        int status;
+        waitpid(proc_id[i], &status, 0);
+        if(WIFEXITED(status)) {
+            int status_code = WEXITSTATUS(status);
+            if(status_code == PATPROCEXIT) {
+                fprintf(stderr, "%s: command not found\n", c_cmd[0]);
+                return 0;
+            }
+        }
+    }
+
     return 0;
 }
