@@ -13,6 +13,8 @@
 #include <algorithm>
 #include <pwd.h>
 
+#define EXEC_EXIT 2
+
 using namespace std;
 
 int misha_readline(vector<string> *tokens) {
@@ -312,7 +314,7 @@ int direct_process(vector<string> args) {
             dup2(output, 1);
         }
         execvp(cmd[0], &cmd[0]);
-        fprintf(stderr, "%s: command not found\n", cmd[0]);
+        fprintf(stderr, "%s: command not found or can't be executed\n", cmd[0]);
         return 1;
 	}
 
@@ -370,7 +372,7 @@ int conveer(vector<vector<string>> args) {
 
             vector<char *> cmd = args_to_c(args[i]);
             execvp(cmd[0], &cmd[0]);
-            fprintf(stderr, "%s: command not found\n", cmd[0]);
+            fprintf(stderr, "%s: command not found or can't be executed\n", cmd[0]);
             return 1;
         }
 
@@ -482,14 +484,20 @@ int misha_launch(vector<string> args) {
         // parent
         int status;
         wait(&status);
-	}
+        if(WIFEXITED(status)) {
+            int status_code = WEXITSTATUS(status);
+            if(status_code == EXEC_EXIT) {
+                fprintf(stderr, "%s: command not found or can't be executed\n", cmd[0]);
+                return 0;
+            }
+	    }
+    }
 
 	if(pid == 0) {
         // child
 
         execvp(cmd[0], &cmd[0]);
-        fprintf(stderr, "%s: command not found\n", cmd[0]);
-        return 1;
+        return EXEC_EXIT;
 	}
 
     if(pid < 0) {

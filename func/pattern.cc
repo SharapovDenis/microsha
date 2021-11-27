@@ -1,5 +1,5 @@
 #include "config.cc"
-#define PATPROCEXIT 2
+#define EXEC_EXIT 2
 
 void walk_recursive(string const &dirname, vector<string> &ret) {
 
@@ -8,7 +8,7 @@ void walk_recursive(string const &dirname, vector<string> &ret) {
         Рекурсивный поиск файлов в директории.
 
     */
-
+   
     DIR *dir = opendir(dirname.c_str());
     if (dir == nullptr) {
         return;
@@ -30,7 +30,6 @@ vector<string> walk(string const &dirname) {
         Вывод в вектор файлов директории.
 
     */
-
     vector<string> ret;
     walk_recursive(dirname, ret);
     return ret;
@@ -154,6 +153,8 @@ int main(int argc, char **argv) {
     string joined;
     string to_walk = sub_direction(args[position]);
 
+    fprintf(stdout, "searching for files...\n");
+
 	if (args[position][0] == '/') {
         dirs = walk(to_walk);
         flag = 1;
@@ -165,9 +166,11 @@ int main(int argc, char **argv) {
     
     sort(dirs.begin(), dirs.end());
 
-    vector<char *> c_cmd;
-    pid_t proc_id[dirs.size()] = {-5};
-    int counter = 0;
+    vector<string> to_execute;
+
+    for(i = 0; i < position; ++i) {
+        to_execute.push_back(args[i]);
+    }
 
     // сравниваем для каждого dirent->name
 	for (i = 0; i < dirs.size(); ++i) {
@@ -185,43 +188,20 @@ int main(int argc, char **argv) {
         }
 
         if (pattern_cmp_vec(file, pattern)) {
-            // если совпали, то выполняем тело:
-
-            counter++;
-            c_cmd.clear();
 
             // прицепили слеши
             joined = join(file, "/", flag);
-            cmd[position] = joined; 
-            
-            c_cmd = args_to_c(cmd);
+            cmd[position] = joined;
+            to_execute.push_back(joined);
 
-            // запускаем программу
-            proc_id[i] = fork();
-
-            if(proc_id[i] == 0) {
-                // child
-                execvp(c_cmd[0], &c_cmd[0]);
-                return PATPROCEXIT;
-            }
-            if(proc_id[i] < 0) {
-                fprintf(stderr, "fork() error\n");
-                return 1;
-            }
 		}
 	}
+    fprintf(stdout, "done!\n");
 
-    for(i = 0; i < counter; ++i) {
-        int status;
-        waitpid(proc_id[i], &status, 0);
-        if(WIFEXITED(status)) {
-            int status_code = WEXITSTATUS(status);
-            if(status_code == PATPROCEXIT) {
-                fprintf(stderr, "%s: command not found\n", c_cmd[0]);
-                return 0;
-            }
-        }
+    if(to_execute.size() == position) {
+        fprintf(stderr, "'%s': no such file or directory!\n", args[position].c_str());
+        return 1;
     }
 
-    return 0;
+    return misha_launch(to_execute);
 }

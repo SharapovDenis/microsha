@@ -78,7 +78,7 @@ int main(int argc, char **argv) {
         if(WIFEXITED(status)) {
             int status_code = WEXITSTATUS(status);
             if(status_code == DIRPROCEXIT) {
-                fprintf(stderr, "%s: command not found\n", cmd[0]);
+                fprintf(stderr, "%s: command not found or can't be executed\n", cmd[0]);
                 return 0;
             }
         }
@@ -94,7 +94,7 @@ int main(int argc, char **argv) {
             dup2(output, 1);
         }
         execvp(cmd[0], &cmd[0]);
-        fprintf(stderr, "%s: command not found\n", cmd[0]);
+        fprintf(stderr, "%s: command not found or can't be executed\n", cmd[0]);
         return 1;
 	}
 
