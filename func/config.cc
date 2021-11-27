@@ -121,7 +121,7 @@ vector<string> split(string line, char to_split) {
 	return ret;
 }
 
-string join(vector<string> args, string s, int key) {
+string join(vector<string> args, string s, int key, int point_flag) {
 
     /*
 
@@ -129,7 +129,7 @@ string join(vector<string> args, string s, int key) {
 
     */
 
-    string ret = s + args[0];
+    string ret;
     long unsigned int i;
 
     if(key == 0) {
@@ -138,6 +138,10 @@ string join(vector<string> args, string s, int key) {
 
     if(key == 1) {
         ret = s + args[0];
+    }
+
+    if(point_flag == 1) {
+        ret = "./" + args[0];
     }
 
 	for (i = 1; i < args.size(); i++) {

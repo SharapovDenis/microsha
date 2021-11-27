@@ -123,7 +123,7 @@ string sub_direction(string line) {
 
 int main(int argc, char **argv) {
     
-    if(argc <= 2) {
+    if(argc < 2) {
         fprintf(stderr, "Too few arguments\n");
         return 1;
     }
@@ -134,7 +134,7 @@ int main(int argc, char **argv) {
     pos = location.find("/bin/pattern");
     location.erase(pos);
 
-    int j, flag = 0;
+    int j, flag = 0, point_flag = 0;
     long unsigned int i;
     vector<string> args;
 
@@ -183,12 +183,13 @@ int main(int argc, char **argv) {
         }
         if(pattern[0] == ".") {
             pattern.erase(pattern.begin(), pattern.begin() + 1);
+            point_flag = 1;
         }
 
         if (pattern_cmp_vec(file, pattern)) {
 
             // прицепили слеши
-            joined = join(file, "/", flag);
+            joined = join(file, "/", flag, point_flag);
             to_execute.push_back(joined);
 
 		}
