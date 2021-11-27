@@ -494,7 +494,7 @@ int misha_launch(vector<string> args) {
                 fprintf(stderr, "%s: command not found or can't be executed\n", cmd[0]);
                 return 0;
             }
-	    }
+        }
     }
 
 	if(pid == 0) {
