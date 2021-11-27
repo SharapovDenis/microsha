@@ -4,7 +4,7 @@
 
 void printt(const char *s, struct timeval *tv) {
     
-    fprintf(stderr, "%s: %9ld.%01ld\n", s, tv->tv_sec, tv->tv_usec/100000);
+    fprintf(stderr, "%s: \t%ldm%ld.%03lds\n", s, tv->tv_sec/60, tv->tv_sec, tv->tv_usec/100);
 }
 
 int main(int argc, char** argv) {
