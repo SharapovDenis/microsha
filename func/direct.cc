@@ -1,5 +1,4 @@
 #include "config.cc"
-#define DIRPROCEXIT 2
 
 int main(int argc, char **argv) {
 
@@ -7,6 +6,12 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Too few arguments\n");
         return 1;
     }
+
+    size_t pos;
+    string location = string(argv[0]);
+    
+    pos = location.find("/bin/direct");
+    location.erase(pos);
 
     int i;
     vector<string> args;
@@ -77,7 +82,7 @@ int main(int argc, char **argv) {
         wait(&status);
         if(WIFEXITED(status)) {
             int status_code = WEXITSTATUS(status);
-            if(status_code == DIRPROCEXIT) {
+            if(status_code == EXEC_EXIT) {
                 fprintf(stderr, "%s: command not found or can't be executed\n", cmd[0]);
                 return 0;
             }
@@ -93,9 +98,19 @@ int main(int argc, char **argv) {
         if(output != 1) {
             dup2(output, 1);
         }
+
+        if(args[0] == "pwd") {
+            return lauch_binaries(args, location, "pwd");
+        }
+        if(args[0] == "echo") {
+            return lauch_binaries(args, location, "echo");;
+        }
+        if(args[0] == "time") {
+            return lauch_binaries(args, location, "time");
+        }
+
         execvp(cmd[0], &cmd[0]);
-        fprintf(stderr, "%s: command not found or can't be executed\n", cmd[0]);
-        return 1;
+        return EXEC_EXIT;
 	}
 
     if(pid < 0) {
@@ -104,11 +119,11 @@ int main(int argc, char **argv) {
     }
 
     if(input != 0) {
-            close(input);
-        }
-        if(output != 1) {
-            close(output);
-        }
+        close(input);
+    }
+    if(output != 1) {
+        close(output);
+    }
 
     return 0;
 }

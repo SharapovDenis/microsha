@@ -153,8 +153,6 @@ int main(int argc, char **argv) {
     string joined;
     string to_walk = sub_direction(args[position]);
 
-    fprintf(stdout, "searching for files...\n");
-
 	if (args[position][0] == '/') {
         dirs = walk(to_walk);
         flag = 1;
@@ -191,17 +189,19 @@ int main(int argc, char **argv) {
 
             // прицепили слеши
             joined = join(file, "/", flag);
-            cmd[position] = joined;
             to_execute.push_back(joined);
 
 		}
 	}
-    fprintf(stdout, "done!\n");
+
+    for(i = position + 1; i < args.size(); ++i) {
+        to_execute.push_back(args[i]);
+    }
 
     if(to_execute.size() == position) {
         fprintf(stderr, "'%s': no such file or directory!\n", args[position].c_str());
         return 1;
     }
 
-    return misha_launch(to_execute);
+    return _execute(to_execute, location);
 }
